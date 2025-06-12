@@ -6,14 +6,18 @@ import sys
 CODE_SPACE=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(CODE_SPACE)
 import argparse
-import custom_mmpkg.custom_mmcv as mmcv
+try:
+    import mmcv
+except ImportError:
+    # mmcv not available, some functionality may be limited
+    mmcv = None
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
 
 try:
-    from custom_mmpkg.custom_mmcv.utils import Config, DictAction
-except:
+    from mmcv.utils import Config, DictAction
+except ImportError:
     from mmengine import Config, DictAction
 from datetime import timedelta
 import random
